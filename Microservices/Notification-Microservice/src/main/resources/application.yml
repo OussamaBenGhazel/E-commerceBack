@@ -1,0 +1,50 @@
+server:
+  port: 8086  # Port d'écoute de ton service Notification
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: notification-event  # File d'attente RabbitMQ que le service écoute
+          group: notification-group  # Groupe pour l'écoute des messages
+          contentType: application/json  # Type de contenu des messages reçus
+
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              autoBindDlq: true  # Active la file de messages morte (Dead Letter Queue)
+        host: localhost  # Hôte RabbitMQ (local dans cet exemple)
+        port: 5672  # Port de RabbitMQ (par défaut)
+        username: guest  # Utilisateur RabbitMQ (par défaut)
+        password: guest  # Mot de passe RabbitMQ (par défaut)
+        virtual-host: /  # Hôte virtuel par défaut
+
+  application:
+    name: notification-service  # Nom de ton service Notification
+
+  mail:
+    host: smtp.mailtrap.io
+    port: 587
+    username: 82471872e0fb0b  # Remplacez par votre utilisateur Mailtrap
+    password: ad8b0543337088  # Remplacez par votre mot de passe Mailtrap
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.ssl.trust: smtp.mailtrap.io
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/  # URL de ton serveur Eureka
+
+logging:
+  level:
+    root: INFO
+    org.springframework: WARN
+    org.springframework.integration: DEBUG
+    org.springframework.amqp: DEBUG
+    org.springframework.cloud: DEBUG
+
+
