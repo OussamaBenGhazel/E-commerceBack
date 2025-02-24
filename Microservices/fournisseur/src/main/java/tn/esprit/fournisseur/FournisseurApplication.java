@@ -1,4 +1,4 @@
-package com.example.review;
+package tn.esprit.fournisseur;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,11 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-
-public class ReviewApplication {
+public class FournisseurApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ReviewApplication.class, args);
+        SpringApplication.run(FournisseurApplication.class, args);
     }
 
 }

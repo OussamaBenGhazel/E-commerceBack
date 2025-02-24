@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Microservice-User" />
+        <module name="eureka" />
+        <module name="Notification-Microservice" />
+        <module name="fournisseur" />
+        <module name="Review" />
+        <module name="reclamation" />
+        <module name="Produit" />
+        <module name="Logistics" />
+      </profile>
+      <profile name="Annotation profile for CommandeService" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="CommandeService" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CommandeService" options="-parameters" />
+      <module name="Logistics" options="-parameters" />
+      <module name="Microservice-User" options="-parameters" />
+      <module name="Notification-Microservice" options="-parameters" />
+      <module name="Produit" options="-parameters" />
+      <module name="Review" options="-parameters" />
+      <module name="eureka" options="-parameters" />
+      <module name="fournisseur" options="-parameters" />
+      <module name="reclamation" options="-parameters" />
+    </option>
+  </component>
+</project>

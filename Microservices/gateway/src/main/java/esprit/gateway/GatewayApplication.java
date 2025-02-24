@@ -19,6 +19,44 @@ public class GatewayApplication {
         return builder.routes()
                 .route("candidat", r -> r.path("/candidats/**")
                         .uri("lb://candidat"))
+
+
+//  microservice   produit
+                .route("Produit", r -> r.path("/produit/**")
+                        .uri("lb://Produit"))
+
+                .route("Produit", r -> r.path("/panier/**")
+                        .uri("lb://Produit"))
+
+
+                //  microservice   produit
+
+
+                .route("Microservice-User", r -> r.path("/notifications/**")
+                        .uri("lb://Microservice-User"))
+
+
+               // micro commande
+                .route("Commande-service", r -> r.path("/commandes/**")
+                        .uri("lb://Commande-service"))
+
+
+               //  micro notification
+
+                .route("notification-service", r -> r.path("/notifications/**")
+                        .uri("lb://notification-service"))
+
+                //  microservice reclamation
+
+
+
+                .route("reclamation", r -> r.path("/reclamation/**")
+                        .uri("lb://reclamation"))
+
+
+                .route("notification", r -> r.path("/notifications/**")
+                        .uri("lb://notification-service"))
+
                 .route("notification", r -> r.path("/notifications/**")
                         .uri("lb://notification-service"))
                 .build();

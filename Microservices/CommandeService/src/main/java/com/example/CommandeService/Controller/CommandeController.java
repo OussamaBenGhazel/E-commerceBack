@@ -2,7 +2,6 @@ package com.example.CommandeService.Controller;
 
 import com.example.CommandeService.Service.CommandeService;
 import com.example.CommandeService.entite.Commande;
-import com.example.ProduitServices.entite.Produit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
