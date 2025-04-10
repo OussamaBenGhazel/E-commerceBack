@@ -36,15 +36,11 @@ public class GatewayApplication {
                         .uri("lb://Microservice-User"))
 
 
-               // micro commande
-                .route("Commande-service", r -> r.path("/commandes/**")
-                        .uri("lb://Commande-service"))
+                .route("commande-service", r -> r.path("/commande/**")  // Toutes les requêtes commençant par /commande
+                        .uri("lb://Commande-service")  // Utilisation du load balancing pour l'URI avec Eureka
+                )
 
 
-               //  micro notification
-
-                .route("notification-service", r -> r.path("/notifications/**")
-                        .uri("lb://notification-service"))
 
                 //  microservice reclamation
 
@@ -57,8 +53,6 @@ public class GatewayApplication {
                 .route("notification", r -> r.path("/notifications/**")
                         .uri("lb://notification-service"))
 
-                .route("notification", r -> r.path("/notifications/**")
-                        .uri("lb://notification-service"))
                 .build();
     }
 

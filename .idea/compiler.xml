@@ -7,12 +7,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="config-service" />
         <module name="Microservice-User" />
         <module name="eureka" />
         <module name="Notification-Microservice" />
         <module name="fournisseur" />
         <module name="Review" />
         <module name="reclamation" />
+        <module name="gateway" />
         <module name="Produit" />
         <module name="Logistics" />
       </profile>
@@ -35,8 +37,10 @@
       <module name="Notification-Microservice" options="-parameters" />
       <module name="Produit" options="-parameters" />
       <module name="Review" options="-parameters" />
+      <module name="config-service" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="fournisseur" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="reclamation" options="-parameters" />
     </option>
   </component>

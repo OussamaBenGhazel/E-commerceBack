@@ -1,38 +1,49 @@
 package com.example.CommandeService.Service;
 
-import com.example.CommandeService.Repo.CommandeRepository;
 import com.example.CommandeService.entite.Commande;
-import org.springframework.cloud.stream.function.StreamBridge;
+import com.example.CommandeService.Repo.CommandeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommandeService {
 
-    private final CommandeRepository repository;
-    private final StreamBridge streamBridge;
+    @Autowired
+    private CommandeRepository commandeRepository;
 
-    public CommandeService(CommandeRepository repository, StreamBridge streamBridge) {
-        this.repository = repository;
-        this.streamBridge = streamBridge;
+    // Créer une nouvelle commande
+    public Commande createCommande(Commande commande) {
+        return commandeRepository.save(commande);
     }
 
-    public Commande addCommande(Commande commande) {
-        commande.setOrderDate(LocalDateTime.now());
-        Commande savedCommande = repository.save(commande);
-
-        // Créer un message JSON pour l'événement
-        String message = String.format("{\"orderId\": %d, \"orderNumber\": \"%s\", \"totalAmount\": %f}",
-                savedCommande.getId(), savedCommande.getOrderNumber(), savedCommande.getTotalAmount());
-
-        // Publier l'événement sur RabbitMQ
-        streamBridge.send("notification-event-out", message);
-
-        return savedCommande;
+    // Mettre à jour une commande existante
+    public Commande updateCommande(Long id, Commande commandeDetails) {
+        Optional<Commande> existingCommande = commandeRepository.findById(id);
+        if (existingCommande.isPresent()) {
+            Commande commande = existingCommande.get();
+            commande.setOrderNumber(commandeDetails.getOrderNumber());
+            commande.setOrderDate(commandeDetails.getOrderDate());
+            commande.setTotalAmount(commandeDetails.getTotalAmount());
+            return commandeRepository.save(commande);
+        }
+        return null;  // Vous pouvez gérer l'exception si nécessaire
     }
 
-    public List<Commande> getallCommandes() {
-        return repository.findAll();
+    // Supprimer une commande par son ID
+    public void deleteCommande(Long id) {
+        commandeRepository.deleteById(id);
+    }
+
+    // Récupérer une commande par son ID
+    public Commande getCommandeById(Long id) {
+        return commandeRepository.findById(id).orElse(null);  // Gérer l'exception si nécessaire
+    }
+
+    // Récupérer toutes les commandes
+    public List<Commande> getAllCommandes() {
+        return commandeRepository.findAll();
     }
 }
