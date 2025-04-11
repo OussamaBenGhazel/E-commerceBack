@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: Produitbadia
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - microservice-network
+
+
+  commande-service:
+    build:
+      context: ./CommandeService
+      dockerfile: Dockerfile
+    ports:
+      - "8093:8093"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/commande_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+      SPRING_APPLICATION_NAME: commande-service
+      SERVER_PORT: 8093
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    depends_on:
+      - mysql
+    networks:
+      - microservice-network
+
+volumes:
+  mysql-data:
+
+networks:
+  microservice-network:
+    driver: bridge
