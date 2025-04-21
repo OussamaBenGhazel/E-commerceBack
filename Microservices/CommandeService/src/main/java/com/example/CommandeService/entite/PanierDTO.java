@@ -1,0 +1,17 @@
+package com.example.CommandeService.entite;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class PanierDTO  {
+    private Long id;
+    private String owner;
+    private List<Produit> produits = new ArrayList<>();
+}

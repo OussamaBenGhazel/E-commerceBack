@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Panier {
+public class PanierDTO  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
