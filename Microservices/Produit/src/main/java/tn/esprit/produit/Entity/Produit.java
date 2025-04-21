@@ -1,6 +1,7 @@
 package tn.esprit.produit.Entity;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,18 +17,16 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long  id;
+    private Long id;
     private String name;
     private String description;
     private double price;
     private int stock;
     private String category;
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "produits")
     private Set<Panier> paniers = new HashSet<>();
-
 }

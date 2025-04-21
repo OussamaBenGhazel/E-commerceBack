@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/fournisseur")
-@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true") // Autorise CORS sur cette API
 public class FournisseurController {
 
     @Autowired

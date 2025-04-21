@@ -13,13 +13,18 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PanierDTO  {
+public class Panier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String owner; // Nom du propriétaire du panier
+    private String owner;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "panier_produits",
+            joinColumns = @JoinColumn(name = "panier_id"),
+            inverseJoinColumns = @JoinColumn(name = "produit_id")
+    )
     private List<Produit> produits = new ArrayList<>();
 }

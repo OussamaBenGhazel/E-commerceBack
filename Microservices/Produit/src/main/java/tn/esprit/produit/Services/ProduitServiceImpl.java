@@ -29,7 +29,6 @@ public class ProduitServiceImpl implements IProduitService {
     public List<Produit> getAllProduit() {
         return pr.findAll();
     }
-
     @Override
     public Produit updateProduit(Produit produit) {
         return pr.save(produit);

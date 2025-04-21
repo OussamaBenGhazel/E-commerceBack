@@ -22,4 +22,11 @@ public class PanierController {
       return p;
   }
 
+
+  @GetMapping("/getPanier/{id}")
+  public Panier getPanierById(@PathVariable Long id) {
+    return ps.getPanierById(id);
+  }
+
+
 }

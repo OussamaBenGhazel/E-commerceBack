@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface IPanierService {
     Panier addPanier(Panier panier);
+    Panier getPanierById(Long id);
+
 
 }

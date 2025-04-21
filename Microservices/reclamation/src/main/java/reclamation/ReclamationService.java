@@ -10,12 +10,13 @@ import java.util.Optional;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-
 public class ReclamationService {
     @Autowired
     private ReclamationRepository reclamationRepository;
+
     @Autowired
-    private RestTemplate restTemplate;  // Vérifie que l'injection fonctionne icitilisé pour envoyer des requêtes HTTP
+    private RestTemplate restTemplate;
+
     private static final String MAILING_SERVICE_URL = "http://localhost:8084/mail/sendReclamationConfirmation";
 
     public List<Reclamation> getAllReclamations() {
@@ -26,19 +27,25 @@ public class ReclamationService {
         return reclamationRepository.findById(id);
     }
 
-    // Méthode pour gérer la création d'une réclamation
+    @Autowired
+    private EmailService emailService;
+
     public Reclamation createReclamation(Reclamation reclamation) {
-        // Envoie la requête pour envoyer un email
-        String emailServiceUrl = "http://localhost:8084/mail/sendReclamationConfirmation";
-        restTemplate.postForObject(emailServiceUrl, reclamation, String.class);
-        return reclamation; // retourne la réclamation après traitement
+        Reclamation savedReclamation = reclamationRepository.save(reclamation);
 
+        try {
+            // Appel du service de mailing local via Mailtrap
+            emailService.sendReclamationConfirmation(reclamation.getEmail(), reclamation.getDescription());
+
+            // Si tu veux aussi appeler un autre microservice (existant), garde cette ligne :
+            // restTemplate.postForObject(MAILING_SERVICE_URL, savedReclamation, String.class);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de l’envoi d’email : " + e.getMessage());
+        }
+
+        return savedReclamation;
     }
 
-    public void sendEmail(String email) {
-        String url = "http://localhost:8084/mail/sendReclamationConfirmation";  // L'URL du service de mailing
-        // Logique pour envoyer une requête HTTP via RestTemplate
-    }
 
     public Reclamation updateReclamation(int id, Reclamation newReclamation) {
         return reclamationRepository.findById(id)
@@ -52,7 +59,6 @@ public class ReclamationService {
                 .orElseThrow(() -> new RuntimeException("Réclamation introuvable !"));
     }
 
-    // 🔹 Supprimer une réclamation
     public void deleteReclamation(int id) {
         reclamationRepository.deleteById(id);
     }

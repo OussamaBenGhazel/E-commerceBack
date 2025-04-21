@@ -6,6 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -14,47 +17,49 @@ public class GatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
     }
+
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("candidat", r -> r.path("/candidats/**")
-                        .uri("lb://candidat"))
+                // Microservice Produit
+                .route("produit", r -> r.path("/produit/**", "/panier/**")
+                        .uri("lb://produit"))
 
+                // Microservice Commande
+                .route("commande", r -> r.path("/commande/**", "/factures/**")
+                        .uri("lb://commande"))  // Notez le nom en minuscules pour correspondre à la config
 
-//  microservice   produit
-                .route("Produit", r -> r.path("/produit/**")
-                        .uri("lb://Produit"))
+                // Microservice Fournisseur
+                .route("fournisseur", r -> r.path("/fournisseur/**")
+                        .uri("lb://fournisseur"))
 
-                .route("Produit", r -> r.path("/panier/**")
-                        .uri("lb://Produit"))
-
-
-                //  microservice   produit
-
-
-                .route("Microservice-User", r -> r.path("/notifications/**")
-                        .uri("lb://Microservice-User"))
-
-
-                .route("commande-service", r -> r.path("/commande/**")  // Toutes les requêtes commençant par /commande
-                        .uri("lb://Commande-service")  // Utilisation du load balancing pour l'URI avec Eureka
-                )
-
-
-
-                //  microservice reclamation
-
-
-
-                .route("reclamation", r -> r.path("/reclamation/**")
+                // Microservice Reclamation
+                .route("reclamation", r -> r.path("/Rec/reclamation/**")
                         .uri("lb://reclamation"))
-
-
+                // Microservice Notification
                 .route("notification", r -> r.path("/notifications/**")
                         .uri("lb://notification-service"))
+                // Microservice-User
+                .route("Microservice-User", r -> r.path("/api/v1/")
+                        .uri("lb://Microservice-User"))
+                // Logistics
+                .route("Logistics", r -> r.path("/Logistics")
+                        .uri("lb://Logistics"))
 
                 .build();
     }
+    @Bean
+    public CorsWebFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        config.addExposedHeader("Authorization"); // Si vous utilisez JWT
 
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
 
+        return new CorsWebFilter(source);
+    }
 }

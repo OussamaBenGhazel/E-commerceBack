@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/factures")
+
 public class FactureController {
 
     @Autowired
@@ -23,6 +24,17 @@ public class FactureController {
         Facture newFacture = factureService.createFacture(facture);
         return new ResponseEntity<>(newFacture, HttpStatus.CREATED);
     }
+
+    @PostMapping("/from-commande/{commandeId}")
+    public ResponseEntity<Facture> createFactureFromCommande(@PathVariable Long commandeId) {
+        try {
+            Facture facture = factureService.createFactureFromCommandeId(commandeId);
+            return new ResponseEntity<>(facture, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     // Mettre à jour une facture
     @PutMapping("/{id}")

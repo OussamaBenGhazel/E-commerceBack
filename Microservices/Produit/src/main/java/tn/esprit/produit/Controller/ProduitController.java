@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.produit.Entity.Produit;
 import tn.esprit.produit.Services.IProduitService;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
+
 @RequestMapping("/produit")
 public class ProduitController {
 
@@ -39,7 +42,10 @@ public class ProduitController {
     }
 
 
-
+    @GetMapping("/all")
+    public List<Produit> getAllProduits() {
+        return ps.getAllProduit();
+    }
 
 
 

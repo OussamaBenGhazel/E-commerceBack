@@ -16,18 +16,12 @@ services:
 
 
 
-  statistique-service:
-    build:
-      context: ./StatistiqueService
-    ports:
-      - "5001:5001"
-    networks:
-      - microservice-network
+
 
 
   commande-service:
     build:
-      context: ./CommandeService
+      context: ./commande
       dockerfile: Dockerfile
     ports:
       - "8093:8093"
@@ -35,7 +29,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/commande_db?useUnicode=true&useJDBCCompliantTimezoneShift=true&createDatabaseIfNotExist=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: rootpassword
-      SPRING_APPLICATION_NAME: commande-service
+      SPRING_APPLICATION_NAME: ccommande
       SERVER_PORT: 8093
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     depends_on:
